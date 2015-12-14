@@ -42,8 +42,22 @@
 #include <QQuickView>
 #include <QQmlEngine>
 
+class MyFilterRunnable : public QVideoFilterRunnable {
+public:
+    QVideoFrame run(QVideoFrame *input, const QVideoSurfaceFormat &surfaceFormat, RunFlags flags)
+    { ... }
+};
+
+class MyFilter : public QAbstractVideoFilter {
+public:
+    QVideoFilterRunnable *createFilterRunnable() { return new MyFilterRunnable; }
+signals:
+    void finished(QObject *result);
+};
+
 int main(int argc, char* argv[])
 {
+    qmlRegisterType<MyFilter>("my.uri", 1, 0, "MyFilter");
     QGuiApplication app(argc,argv);
     QQuickView view;
     view.setResizeMode(QQuickView::SizeRootObjectToView);

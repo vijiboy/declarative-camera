@@ -40,6 +40,7 @@
 
 import QtQuick 2.0
 import QtMultimedia 5.4
+import my.uri 1.0
 
 Rectangle {
     id : cameraUI
@@ -100,6 +101,13 @@ Rectangle {
         }
     }
 
+    // declaring the video filter
+    MyFilter {
+        id: filter
+        // set properties, they can also be animated
+        onFinished: console.log("results of the video filter: " + result)
+    }
+
     PhotoPreview {
         id : photoPreview
         anchors.fill : parent
@@ -122,6 +130,8 @@ Rectangle {
     VideoOutput {
         id: viewfinder
         visible: cameraUI.state == "PhotoCapture" || cameraUI.state == "VideoCapture"
+
+        filters: [filter] // adding the video filter
 
         x: 0
         y: 0
