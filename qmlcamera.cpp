@@ -41,11 +41,30 @@
 #include <QGuiApplication>
 #include <QQuickView>
 #include <QQmlEngine>
+#include <QVideoFilterRunnable>
+#include <QAbstractVideoFilter>
 
 class MyFilterRunnable : public QVideoFilterRunnable {
 public:
     QVideoFrame run(QVideoFrame *input, const QVideoSurfaceFormat &surfaceFormat, RunFlags flags)
-    { ... }
+    {
+        if (!input->isValid())
+            return *input;
+
+        input->map(QAbstractVideoBuffer::ReadWrite);
+
+        // Modify the frame as required - converting back to QVideoFrame from e.g. QImage or OpenCV (Cv::Mat) image
+        // sample code below modifies few pixels
+        int firstU = input->width()*input->height();
+        int lastV = input->width()*input->height()+2*input->width()*input->height()/4;
+        uchar* inputBits = input->bits();
+        for (int i=firstU; i<lastV; i++)
+            inputBits[i] = 127; // graying out
+
+        input->unmap();
+        //emit finished(input); //TODO: check if this works, can help in notifying
+        return *input;
+    }
 };
 
 class MyFilter : public QAbstractVideoFilter {
@@ -57,8 +76,10 @@ signals:
 
 int main(int argc, char* argv[])
 {
-    qmlRegisterType<MyFilter>("my.uri", 1, 0, "MyFilter");
     QGuiApplication app(argc,argv);
+
+    qmlRegisterType<MyFilter>("my.uri", 1, 0, "MyFilter");
+
     QQuickView view;
     view.setResizeMode(QQuickView::SizeRootObjectToView);
     // Qt.quit() called in embedded .qml by default only emits

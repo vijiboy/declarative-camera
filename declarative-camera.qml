@@ -105,7 +105,7 @@ Rectangle {
     MyFilter {
         id: filter
         // set properties, they can also be animated
-        onFinished: console.log("results of the video filter: " + result)
+        //onFinished: console.log("results of the video filter: " + result)
     }
 
     PhotoPreview {
@@ -139,7 +139,7 @@ Rectangle {
         height: parent.height
 
         source: camera
-        autoOrientation: true
+        //autoOrientation: true
     }
 
     PhotoCaptureControls {
