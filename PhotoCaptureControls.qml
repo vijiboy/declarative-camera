@@ -69,54 +69,10 @@ FocusScope {
             id: buttonsColumn
             spacing: 8
 
-            FocusButton {
-                camera: captureControls.camera
-                visible: camera.cameraStatus == Camera.ActiveStatus && camera.focus.isFocusModeSupported(Camera.FocusAuto)
-            }
-
             CameraButton {
-                text: "Capture"
+                text: "Demo 1"
                 visible: camera.imageCapture.ready
-                onClicked: camera.imageCapture.capture()
-            }
-
-            CameraPropertyButton {
-                id : wbModesButton
-                value: CameraImageProcessing.WhiteBalanceAuto
-                model: ListModel {
-                    ListElement {
-                        icon: "images/camera_auto_mode.png"
-                        value: CameraImageProcessing.WhiteBalanceAuto
-                        text: "Auto"
-                    }
-                    ListElement {
-                        icon: "images/camera_white_balance_sunny.png"
-                        value: CameraImageProcessing.WhiteBalanceSunlight
-                        text: "Sunlight"
-                    }
-                    ListElement {
-                        icon: "images/camera_white_balance_cloudy.png"
-                        value: CameraImageProcessing.WhiteBalanceCloudy
-                        text: "Cloudy"
-                    }
-                    ListElement {
-                        icon: "images/camera_white_balance_incandescent.png"
-                        value: CameraImageProcessing.WhiteBalanceTungsten
-                        text: "Tungsten"
-                    }
-                    ListElement {
-                        icon: "images/camera_white_balance_flourescent.png"
-                        value: CameraImageProcessing.WhiteBalanceFluorescent
-                        text: "Fluorescent"
-                    }
-                }
-                onValueChanged: captureControls.camera.imageProcessing.whiteBalanceMode = wbModesButton.value
-            }
-
-            CameraButton {
-                text: "View"
-                onClicked: captureControls.previewSelected()
-                visible: captureControls.previewAvailable
+                onClicked: ; //camera.imageCapture.capture()
             }
         }
 
@@ -136,7 +92,7 @@ FocusScope {
             }
 
             CameraButton {
-                text: "Switch to Video"
+                text: "Switch to Demo 2"
                 onClicked: captureControls.videoModeSelected()
             }
 

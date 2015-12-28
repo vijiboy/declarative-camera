@@ -69,29 +69,10 @@ FocusScope {
             id: buttonsColumn
             spacing: 8
 
-            FocusButton {
-                camera: captureControls.camera
-                visible: camera.cameraStatus == Camera.ActiveStatus && camera.focus.isFocusModeSupported(Camera.FocusAuto)
-            }
-
             CameraButton {
-                text: "Record"
-                visible: camera.videoRecorder.recorderStatus == CameraRecorder.LoadedStatus
-                onClicked: camera.videoRecorder.record()
-            }
-
-            CameraButton {
-                id: stopButton
-                text: "Stop"
-                visible: camera.videoRecorder.recorderStatus == CameraRecorder.RecordingStatus
-                onClicked: camera.videoRecorder.stop()
-            }
-
-            CameraButton {
-                text: "View"
-                onClicked: captureControls.previewSelected()
-                //don't show View button during recording
-                visible: camera.videoRecorder.actualLocation && !stopButton.visible
+                text: "Demo 2"
+                onClicked: ;//captureControls.previewSelected()
+                visible: camera.cameraStatus = Camera.ActiveStatus
             }
         }
 
@@ -111,7 +92,7 @@ FocusScope {
             }
 
             CameraButton {
-                text: "Switch to Photo"
+                text: "Switch to Demo 1"
                 onClicked: captureControls.photoModeSelected()
             }
 
