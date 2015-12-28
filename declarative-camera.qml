@@ -129,9 +129,9 @@ Rectangle {
 
     VideoOutput {
         id: viewfinder
-        visible: cameraUI.state == "PhotoCapture" || cameraUI.state == "VideoCapture"
+        visible: cameraUI.state == "PhotoCapture" || cameraUI.state == "PhotoPreview"
 
-        filters: [filter] // adding the video filter
+        filters: cameraUI.state == "PhotoPreview" ? [filter]: "" // adding the video filter
 
         x: 0
         y: 0
@@ -146,7 +146,7 @@ Rectangle {
         id: stillControls
         anchors.fill: parent
         camera: camera
-        visible: cameraUI.state == "PhotoCapture"
+        visible: cameraUI.state == "PhotoCapture" || cameraUI.state == "PhotoPreview"
         onPreviewSelected: cameraUI.state = "PhotoPreview"
         onVideoModeSelected: cameraUI.state = "VideoCapture"
     }

@@ -70,9 +70,9 @@ FocusScope {
             spacing: 8
 
             CameraButton {
-                text: "Demo 1"
+                text: "Demo 1 (Toggle)"
                 visible: camera.imageCapture.ready
-                onClicked: ; //camera.imageCapture.capture()
+                onClicked: (cameraUI.state == "PhotoPreview")? cameraUI.state = "PhotoCapture": cameraUI.state = "PhotoPreview"
             }
         }
 

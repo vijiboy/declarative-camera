@@ -70,9 +70,9 @@ FocusScope {
             spacing: 8
 
             CameraButton {
-                text: "Demo 2"
-                onClicked: ;//captureControls.previewSelected()
+                text: "Demo 2 (Toggle)"
                 visible: camera.cameraStatus = Camera.ActiveStatus
+                onClicked: (cameraUI.state == "VideoPreview")? cameraUI.state = "VideoCapture": cameraUI.state = "VideoPreview"
             }
         }
 

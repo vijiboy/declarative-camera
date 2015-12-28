@@ -52,28 +52,28 @@ public:
             return *input;
 
         // Note! Overwriting input buffer with a bigger image for demo purpose only
-        //QVideoFrame *output = new QVideoFrame(input->width()*input->height()*2,
-        //                                      QSize(input->width()*2,input->height()),
-        //                                      input->width()*2,
-        //                                      QVideoFrame::Format_RGB32);
-        //output->map(QAbstractVideoBuffer::ReadWrite);
-        input->map(QAbstractVideoBuffer::ReadWrite);
+        QVideoFrame *output = new QVideoFrame(input->width()*input->height()*2,
+                                              QSize(input->width()*2,input->height()),
+                                              input->width()*2,
+                                              QVideoFrame::Format_RGB32);
+        output->map(QAbstractVideoBuffer::ReadWrite);
+        //input->map(QAbstractVideoBuffer::ReadWrite);
 
         // Modify the frame in format of your choice finally returning in frame format
         // e.g. QVideoFrame to QImage or OpenCV (Cv::Mat) image to QVideoFrame
         // sample code below modifies few pixels of the current frame
-        //int firstU = output->width()*output->height()/2;
-        //int lastV = output->width()*output->height()/4;
-        //uchar* outputBits = output->bits();
-        //for (int i=lastV; i<firstU; i++)
-        //    outputBits[i] = 127; // graying out a strip from the image
+        int firstU = output->width()*output->height()/2;
+        int lastV = output->width()*output->height()/4;
+        uchar* outputBits = output->bits();
+        for (int i=lastV; i<firstU; i++)
+            outputBits[i] = 127; // graying out a strip from the image
 
-        //output->unmap();
-        input->unmap();
+        output->unmap();
+        //input->unmap();
         //emit finished(input); //TODO: check if this works, can help in notifying
 
-        //return *output;
-        return *input;
+        return *output;
+        //return *input;
     }
 };
 
