@@ -69,6 +69,26 @@ FocusScope {
             id: buttonsColumn
             spacing: 8
 
+            Image{
+                id : currentFrame
+                source: "image://updatedframeprovider/yellow"
+                cache: false
+                asynchronous: false //true
+            }
+
+            Timer {
+                interval: 1000
+                repeat: true
+                running: true
+                onTriggered: { currentFrame.source = ""; currentFrame.source = "image://updatedframeprovider/red" }
+            }
+            Timer {
+                interval: 1500
+                repeat: true
+                running: true
+                onTriggered: { currentFrame.source = ""; currentFrame.source = "image://updatedframeprovider/yellow" }
+            }
+
             CameraButton {
                 text: "Demo 2 (Toggle)"
                 visible: camera.cameraStatus == Camera.ActiveStatus

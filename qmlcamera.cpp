@@ -43,6 +43,7 @@
 #include <QQmlEngine>
 #include <QVideoFilterRunnable>
 #include <QAbstractVideoFilter>
+#include <QQuickImageProvider>
 
 class MyFilterRunnable : public QVideoFilterRunnable {
 public:
@@ -84,6 +85,29 @@ signals:
     void finished(QObject *result);
 };
 
+class ColorImageProvider : public QQuickImageProvider
+{
+public:
+    ColorImageProvider()
+        : QQuickImageProvider(QQuickImageProvider::Pixmap)
+    {
+    }
+
+    QPixmap requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
+    {
+        int width = 100;
+        int height = 50;
+
+        if (size)
+            *size = QSize(width, height);
+        QPixmap pixmap(requestedSize.width() > 0 ? requestedSize.width() : width,
+                       requestedSize.height() > 0 ? requestedSize.height() : height);
+        pixmap.fill(QColor(id).rgba());
+
+        return pixmap;
+    }
+};
+
 int main(int argc, char* argv[])
 {
     QGuiApplication app(argc,argv);
@@ -91,6 +115,9 @@ int main(int argc, char* argv[])
     qmlRegisterType<MyFilter>("my.uri", 1, 0, "MyFilter");
 
     QQuickView view;
+    QQmlEngine *engine = view.engine();
+    engine->addImageProvider("updatedframeprovider",new ColorImageProvider);
+
     view.setResizeMode(QQuickView::SizeRootObjectToView);
     // Qt.quit() called in embedded .qml by default only emits
     // quit() signal, so do this (optionally use Qt.exit()).
