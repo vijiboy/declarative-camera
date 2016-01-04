@@ -129,7 +129,7 @@ Rectangle {
 
     VideoOutput {
         id: viewfinder
-        visible: cameraUI.state == "PhotoCapture" || cameraUI.state == "PhotoPreview"
+        visible: cameraUI.state == "PhotoCapture" || cameraUI.state == "PhotoPreview" || cameraUI.state == "VideoCapture"
 
         filters: cameraUI.state == "PhotoPreview" ? [filter]: "" // adding the video filter
 

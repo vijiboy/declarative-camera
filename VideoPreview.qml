@@ -57,6 +57,21 @@ Item {
         }
     }
 
+    Image{
+        id : currentFrame
+        source: "image://updatedframeprovider/yellow"
+        cache: false
+        asynchronous: false //true
+        anchors.fill: parent
+    }
+
+    Timer {
+        interval: 1000
+        repeat: true
+        running: true
+        onTriggered: { currentFrame.source = ""; currentFrame.source = "image://updatedframeprovider/" + getRandomColor() }
+    }
+
     VideoOutput {
         source: player
         anchors.fill : parent
@@ -68,5 +83,15 @@ Item {
             videoPreview.closed();
         }
     }
+
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF'.split('');
+        var color = '#';
+        for (var i = 0; i < 6; i++ ) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+
 }
 

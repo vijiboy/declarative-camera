@@ -52,13 +52,16 @@ public:
         if (!input->isValid())
             return *input;
 
-        // Note! Overwriting input buffer with a bigger image for demo purpose only
+        input->map(QAbstractVideoBuffer::ReadWrite);
+
+        // TODO: Get the current frame updated for Demo1 using the application object instance.
+
+        // DEMO ONLY CODE: Overwriting input buffer with a bigger image for demo purpose only ----
         QVideoFrame *output = new QVideoFrame(input->width()*input->height()*2,
                                               QSize(input->width()*2,input->height()),
                                               input->width()*2,
                                               QVideoFrame::Format_RGB32);
         output->map(QAbstractVideoBuffer::ReadWrite);
-        //input->map(QAbstractVideoBuffer::ReadWrite);
 
         // Modify the frame in format of your choice finally returning in frame format
         // e.g. QVideoFrame to QImage or OpenCV (Cv::Mat) image to QVideoFrame
@@ -70,7 +73,9 @@ public:
             outputBits[i] = 127; // graying out a strip from the image
 
         output->unmap();
-        //input->unmap();
+        // DEMO ONLY CODE ends here -----
+
+        input->unmap();
         //emit finished(input); //TODO: check if this works, can help in notifying
 
         return *output;
@@ -94,7 +99,12 @@ public:
     }
 
     QPixmap requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
-    {
+    { // This method, requestPixmap is called at regular interval to refresh the GUI by returning a new QPixmap
+
+        // For demo purpose we are creating a QPixmap, where a GetMyCurrentFrame API method can be called.
+
+        // TODO: use the application object instance to get the actual frame for Demo 2 here.
+
         int width = 100;
         int height = 50;
 
@@ -117,6 +127,9 @@ int main(int argc, char* argv[])
     QQuickView view;
     QQmlEngine *engine = view.engine();
     engine->addImageProvider("updatedframeprovider",new ColorImageProvider);
+
+    // TODO: create/initialise the sole application object here to provide Demo1 and Demo2 frames.
+    // TODO: access this singleton application object in the run method and requestPixMap method defined earlier.
 
     view.setResizeMode(QQuickView::SizeRootObjectToView);
     // Qt.quit() called in embedded .qml by default only emits
