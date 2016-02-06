@@ -41,6 +41,8 @@
 import QtQuick 2.0
 import QtMultimedia 5.4
 
+import QtQuick.Controls 1.4
+
 FocusScope {
     property Camera camera
     property bool previewAvailable : false
@@ -73,6 +75,21 @@ FocusScope {
                 text: "Demo 2 (Toggle)"
                 visible: camera.cameraStatus == Camera.ActiveStatus
                 onClicked: (cameraUI.state == "VideoPreview")? cameraUI.state = "VideoCapture": cameraUI.state = "VideoPreview"
+            }
+
+            CameraButton {
+                text: "SetVideoPath"
+                height: 30
+                visible: camera.cameraStatus == Camera.ActiveStatus
+                //onClicked: (cameraUI.state == "VideoPreview")? cameraUI.state = "VideoCapture": cameraUI.state = "VideoPreview"
+            }
+
+            TextArea {
+                width: parent.width
+                height: 70
+                //font.bold: true
+               font.pointSize: 12
+                wrapMode: TextEdit.WrapAnywhere
             }
         }
 
